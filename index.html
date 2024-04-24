@@ -156,9 +156,13 @@
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimNV"
-                        ><i class="fa fa-search"></i
-                      ></span>
+                      <span
+                        class="input-group-text"
+                        onclick="searchNV()"
+                        id="btnTimNV"
+                      >
+                        <i class="fa fa-search"></i>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -213,7 +217,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form">
+            <form role="form" id="formQLNV">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -264,6 +268,7 @@
                     id="email"
                     class="form-control input-sm"
                     placeholder="Email"
+                    pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$"
                   />
                 </div>
 
@@ -281,6 +286,9 @@
                     type="password"
                     name="password"
                     id="password"
+                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"
+                    title="Please include at least 1 uppercase character, 1 lowercase character, and 1 number."
+                    required
                     class="form-control input-sm"
                     placeholder="Mật khẩu"
                   />
@@ -300,6 +308,7 @@
                     name="ngaylam"
                     id="datepicker"
                     class="form-control"
+                    pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
                     placeholder="Ngày làm"
                   />
                 </div>
@@ -418,7 +427,7 @@
                   </div>
                   <input
                     type="text"
-                    name="tk"
+                    name="tk1"
                     id="tknv1"
                     class="form-control input-sm"
                     placeholder="Tài khoản"
@@ -437,7 +446,7 @@
                   </div>
                   <input
                     type="name"
-                    name="name"
+                    name="name1"
                     id="name1"
                     class="form-control input-sm"
                     placeholder="Họ và tên"
@@ -455,14 +464,13 @@
                   </div>
                   <input
                     type="email"
-                    name="email"
+                    name="email1"
                     id="email1"
                     class="form-control input-sm"
                     placeholder="Email"
                   />
+                  <span class="sp-thongbao" id="tbTen"></span>
                 </div>
-
-                <span class="sp-thongbao" id="tbEmail"></span>
               </div>
 
               <div class="form-group">
@@ -605,6 +613,8 @@
         });
       });
     </script>
+    <!-- validate -->
+    <script src="js/validate.js"></script>
     <!-- controller -->
     <script src="js/controller.js"></script>
     <!-- model -->

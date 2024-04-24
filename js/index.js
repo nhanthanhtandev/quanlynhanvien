@@ -18,32 +18,51 @@ if(kqLay != null){
     renderDSNV(nguoiLaoDong);
 }
 function themNV(){
-    var taiKhoan = document.getElementById("tknv").value;
-    var ten = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
-    var matKhau = 
-    document.getElementById("password").value;
-    var ngayLam = document.getElementById("datepicker").value;
-    var luongCB = document.getElementById("luongCB").value;
-    var chucVu = document.getElementById("chucvu").value;
-   
-    var gioLam = document.getElementById("gioLam").value;
+    var nvcanthem = layThongTinTuForm1();
+    var isValid = kiemTraRong(nvcanthem.taiKhoan, "tbTKNV");
 
-    if(chucVu == "0")
-    {
-        alert("Mời bạn chọn lại chức vụ");
-        resetForm();
+    isValid =
+    kiemTraRong(nvcanthem.taiKhoan, "tbTKNV") && kiemTraMinMax(nvcanthem.taiKhoan, "tbTKNV", 4, 6) && isValid;
+
+    isValid =
+    kiemTraRong(nvcanthem.ten, "tbTen") &&
+    kiemTraMinMax(nvcanthem.ten, "tbTen", 8, 20) &&
+    isValid;
+
+    isValid = kiemTraRong(nvcanthem.email, "tbEmail") && kiemTraEmail(nvcanthem.email) && isValid;
+
+    isValid = kiemTraRong(nvcanthem.luongCB,"tbLuongCB") && kiemTraLuong(nvcanthem.luongCB)&& kiemTraGioLam(nvcanthem.gioLam,"tbGiolam") && isValid;
+    isValid =
+    isValid &
+    kiemTraRong(nvcanthem.matKhau, "tbMatKhau") &
+    kiemTraRong(nvcanthem.ngayLam, "tbNgay") &
+    kiemTraRong(nvcanthem.chucVu,"tbChucVu") &
+    kiemTraRong(nvcanthem.gioLam, "tbGiolam") &
+    kiemTraLuong(nvcanthem.gioLam);
+
+    if(isValid){
+        if(nvcanthem.chucVu == "0")
+        {
+            alert("Mời bạn chọn lại chức vụ");
+            resetForm();
+        }
+        else{
+           
+            dsnv.push(nvcanthem);
+            var dataJSON = JSON.stringify(dsnv);
+            dataJSON = localStorage.setItem("DSNV",dataJSON);
+            renderDSNV(dsnv);
+            resetForm();   
+        }
     }
-    else 
-    {
-        var nv = new lopLaoDong(taiKhoan,ten,email,matKhau,ngayLam,chucVu,luongCB,gioLam);
-        dsnv.push(nv);
-        var dataJSON = JSON.stringify(dsnv);
-        dataJSON = localStorage.setItem("DSNV",dataJSON);
-        renderDSNV(dsnv);   
-    }
+
 }
-
+function resetForm(){
+    document.getElementById("formQLNV").reset();
+}
+function resetForm1(){
+    document.getElementById("myModal1").value = "";
+}
 function xoanvLaoDong(id){
     for(var i = 0 ; i < dsnv.length ; i++)
     {
@@ -58,54 +77,56 @@ function xoanvLaoDong(id){
 
 
 function suanvLaoDong(id){
-    var index =  dsnv.findIndex(function(){
-        for(var i = 0 ; i < dsnv.length ; i++){
-            if(dsnv[i].taiKhoan == id)
-            {
-                index = dsnv[i];  
-            }
-        }
-        return index;
-   })
    
-   document.getElementById("tknv1").value = dsnv[index].taiKhoan;
-   document.getElementById("name1").value = dsnv[index].ten;
-   document.getElementById("email1").value = dsnv[index].email;
-   document.getElementById("password1").value = dsnv[index].matKhau;
-   document.getElementById("datepicker1").value = dsnv[index].ngayLam;
-   document.getElementById("chucvu1").value = dsnv[index].chucVu;
-   document.getElementById("luongCB1").value  = dsnv[index].luongCB;
-   document.getElementById("gioLam1").value = dsnv[index].gioLam;
+    var index = dsnv.findIndex(function (item) {
+        return item.taiKhoan == id;
+    });
+    
+    var nvcan = dsnv[index];
+    
+   document.getElementById("tknv1").value = nvcan.taiKhoan;
+   document.getElementById("name1").value = nvcan.ten;
+   document.getElementById("email1").value = nvcan.email;
+   document.getElementById("password1").value = nvcan.matKhau;
+   document.getElementById("datepicker1").value = nvcan.ngayLam;
+   document.getElementById("chucvu1").value = nvcan.chucVu;
+   document.getElementById("luongCB1").value  = nvcan.luongCB;
+   document.getElementById("gioLam1").value = nvcan.gioLam;
    document.getElementById("tknv1").readOnly = true;
 
 }
 
 function capNhatNV(id){
-    for(var i = 0 ; i <dsnv.length ; i++)
-    {
-        id = dsnv[i];
-        
-    }
-    id.taiKhoan = document.getElementById("tknv1").value;
-    id.ten = document.getElementById("name1").value;
-    id.email = document.getElementById("email1").value;
-    id.matKhau = document.getElementById("password1").value;
-    id.ngayLam = document.getElementById("datepicker1").value;
-    id.luongCB = document.getElementById("luongCB1").value;
-    id.chucVu = document.getElementById("chucvu1").value;
-    id.gioLam = document.getElementById("gioLam1").value;
-
-//     var index =  dsnv.findIndex(function(){
-//         for(var i = 0 ; i < dsnv.length ; i++){
-//             if(dsnv[i].taiKhoan == id)
-//             {
-//                 index = dsnv[i];  
-//             }
-//         }
-//         return index;
-//    })
-   var dataJSON = JSON.stringify(dsnv);
-   dataJSON = localStorage.setItem("DSNV",dataJSON);
-   renderDSNV(dsnv);
+    var nv = layThongTinTuForm();
+    var index = dsnv.findIndex(function (item) {
+        return item.taiKhoan == nv.taiKhoan;
+    });
+    dsnv[index] = nv;
+    var dataJSON = JSON.stringify(dsnv);
+    dataJSON = localStorage.setItem("DSNV",dataJSON);
+    renderDSNV(dsnv);
   
+}
+var nvtimkiem=[];
+function searchNV(loaiNV){
+    loaiNV = document.getElementById("searchName").value;
+    for(var i = 0 ; i < dsnv.length ; i++){
+        if(loaiNV == dsnv[i].loaiNhanVien()){
+            var index =  dsnv.filter(function(item){
+                
+                if(loaiNV == item.loaiNhanVien())
+                {
+                    index = dsnv[i].taiKhoan; 
+                    
+                }
+            
+                
+                return index;
+            })
+            searchDSNV(index);
+           
+            
+        }
+    }
+    
 }
