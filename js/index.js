@@ -108,6 +108,8 @@ function capNhatNV(id){
   
 }
 var nvtimkiem=[];
+
+
 function searchNV(loaiNV){
     loaiNV = document.getElementById("searchName").value;
     for(var i = 0 ; i < dsnv.length ; i++){
@@ -117,16 +119,19 @@ function searchNV(loaiNV){
                 if(loaiNV == item.loaiNhanVien())
                 {
                     index = dsnv[i].taiKhoan; 
-                    
+                    return index;
                 }
-            
                 
-                return index;
             })
-            searchDSNV(index);
+            
+            
            
             
         }
+        
     }
+    
+    
+    timDSNV(index);
     
 }

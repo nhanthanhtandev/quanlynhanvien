@@ -20,20 +20,24 @@ function renderDSNV(nvArr){
 }
 
 
-function searchDSNV(nvArr){
+function timDSNV(index){
     let contentHTML = "";
-    nvArr.map(value =>{
-        var kqHienThi = `<tr>
-        <td>${value.taiKhoan}</td>
-        <td>${value.ten}</td>
-        <td>${value.email}</td>
-        <td>${value.ngayLam}</td>
-        <td>${value.chucVu}</td>
-        <td>${value.tinhLuong()}</td>
-        <td>${value.loaiNhanVien()}</td>
-        </tr>`
-        contentHTML += kqHienThi;
+    index.map(value =>{
+        
+            var kqHienThi = `<tr>
+            <td>${value.taiKhoan}</td>
+            <td>${value.ten}</td>
+            <td>${value.email}</td>
+            <td>${value.ngayLam}</td>
+            <td>${value.chucVu}</td>
+            <td>${value.tinhLuong()}</td>
+            <td>${value.loaiNhanVien()}</td>
+            </tr>`
+            contentHTML += kqHienThi;
+        
+        
     })
-
     document.getElementById("tableDanhSach").innerHTML= contentHTML;
+    
+    
  }
